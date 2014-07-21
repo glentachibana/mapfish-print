@@ -18,6 +18,7 @@
 	<bean id="mapReaderFactoryFinder" class="org.mapfish.print.map.readers.MapReaderFactoryFinder"/>
 	<bean id="wms-MapReaderFactory" class="org.mapfish.print.map.readers.WMSMapReader$Factory"/>
 	<bean id="mapServer-MapReaderFactory" class="org.mapfish.print.map.readers.MapServerMapReader$Factory"/>
+	<bean id="tiledMapServer-MapReaderFactory" class="org.mapfish.print.map.readers.MapServerTileMapReader$Factory"/>
 	<bean id="tileCache-MapReaderFactory" class="org.mapfish.print.map.readers.TileCacheMapReader$Factory"/>
 	<bean id="osm-MapReaderFactory" class="org.mapfish.print.map.readers.OsmMapReader$Factory"/>
 	<bean id="xyz-MapReaderFactory" class="org.mapfish.print.map.readers.XyzMapReader$Factory"/>
