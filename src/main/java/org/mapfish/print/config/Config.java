@@ -86,6 +86,7 @@ public class Config implements Closeable {
     private TreeSet<String> fonts = null;
     private List<HostMatcher> hosts = new ArrayList<HostMatcher>();
     private HashMap localHostForward;
+    private String mapForward = null;
     private TreeSet<String> headers;
     private TreeSet<Key> keys;
 
@@ -510,6 +511,15 @@ public class Config implements Closeable {
             }
         }
         return false;
+    }
+
+    public void setMapForward(String mapForward) {
+        this.mapForward = mapForward;
+        System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
+    }
+    
+    public String getMapForward() {
+    	return mapForward;
     }
 
     public void setHeaders(TreeSet<String> headers) {
