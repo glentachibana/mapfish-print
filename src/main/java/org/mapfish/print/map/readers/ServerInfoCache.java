@@ -81,13 +81,20 @@ public class ServerInfoCache<T extends ServiceInfo> {
             if ((url.getProtocol().equals("http") || url.getProtocol().equals("https")) &&
                 (context.getConfig().localHostForwardIsFrom(url.getHost()) || context.getConfig().getMapForward()!=null)) {
 				String mapForward = context.getConfig().getMapForward();
-                String scheme = mapForward != null ? "http" : url.getProtocol();
+				URI mapForwardUri = null;
+				try {
+					mapForwardUri = new URI (mapForward);
+				} catch (Exception ex) {
+				}
+                String scheme = mapForwardUri != null ? mapForwardUri.getScheme() :  mapForward != null ? "http" : url.getProtocol();
                 final String host = url.getHost();
                 if (url.getProtocol().equals("https") &&
                     context.getConfig().localHostForwardIsHttps2http()) {
                     scheme = "http";
                 }
-                URL localUrl = new URL(scheme, mapForward != null ? mapForward : "localhost", url.getPort(),
+                URL localUrl = new URL(scheme, 
+                		mapForwardUri != null ? mapForwardUri.getHost() : mapForward != null ? mapForward : "localhost", 
+                		mapForwardUri != null ? mapForwardUri.getPort() : url.getPort(),
                         url.getFile());
                 HttpURLConnection connexion = (HttpURLConnection)localUrl.openConnection();
                 connexion.setRequestProperty("Host", host);

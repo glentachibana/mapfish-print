@@ -218,13 +218,21 @@ public class PDFUtils {
                 if ((uri.getScheme().equals("http") || uri.getScheme().equals("https"))
                         && (context.getConfig().localHostForwardIsFrom(uri.getHost()) || context.getConfig().getMapForward()!=null)) {
                 	String mapForward = context.getConfig().getMapForward();
-                	String scheme = mapForward != null ? "http" : uri.getScheme();
+                	URI mapForwardUri = null;
+                	try {
+                		mapForwardUri = new URI (mapForward);
+                	} catch (Exception ex) {
+                		
+                	}
+                	String scheme = mapForwardUri != null ? mapForwardUri.getScheme() : mapForward != null ? "http" : uri.getScheme();
                     final String host = uri.getHost();
                     if (uri.getScheme().equals("https")
                             && context.getConfig().localHostForwardIsHttps2http()) {
                         scheme = "http";
                     }
-                    URL url = new URL(scheme, mapForward != null ? mapForward : "localhost", uri.getPort(),
+                    URL url = new URL(scheme, 
+                    		mapForwardUri != null ? mapForwardUri.getHost() : mapForward != null ? mapForward : "localhost", 
+                    		mapForwardUri != null ? mapForwardUri.getPort() : uri.getPort(),
                             uri.getPath() + "?" + (uri.getQuery() != null ? uri.getQuery().replace(" ", "%20") : ""));
 
                     HttpURLConnection connexion = (HttpURLConnection) url.openConnection();
